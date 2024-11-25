@@ -1,0 +1,33 @@
+<ion-content [fullscreen]="true">
+  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+  <div id="contenedor">
+    <h1>Registro DuOktrip</h1>
+    <ion-icon src="/assets/taxi.svg" id="logo"></ion-icon>
+    
+    <input type="text" placeholder="Nombre de usuario" [(ngModel)]="datosUsuario.nombre" />
+    <input type="email" placeholder="Correo electronico" [(ngModel)]="datosUsuario.correo" />
+    <input type="password" placeholder="Contraseña" [(ngModel)]="datosUsuario.contrasena" />
+    
+    <ion-radio-group (ionChange)="onConductorChange($event)">
+      <ion-list-header>
+        <ion-label>¿Eres conductor?</ion-label>
+      </ion-list-header>
+
+      <ion-item>
+        <ion-label>Sí</ion-label>
+        <ion-radio slot="start" value="si"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>No</ion-label>
+        <ion-radio slot="start" value="no"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <input type="text" placeholder="Patente" [(ngModel)]="datosUsuario.patente" maxlength="6"  [disabled]="!esConductor" />
+    <input type="text" placeholder="Vehículo" [(ngModel)]="datosUsuario.vehiculo" [disabled]="!esConductor"  />
+    
+    <ion-button class="boton" expand="full" (click)="registrar()">Registrar</ion-button>
+  </div>
+
+</ion-content>
