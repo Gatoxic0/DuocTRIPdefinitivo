@@ -1,0 +1,60 @@
+<ion-content [fullscreen]="true">
+  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+    <div class="contenedor">
+      <ion-card>
+        <ion-card-header>
+          <ion-card-title>Card Title</ion-card-title>
+          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+              </ion-thumbnail>
+              <ion-label>Item</ion-label>
+            </ion-item>
+      
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+              </ion-thumbnail>
+              <ion-label>Item</ion-label>
+            </ion-item>
+      
+            <ion-item>
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+              </ion-thumbnail>
+              <ion-label>Item</ion-label>
+            </ion-item>
+      
+            <ion-item lines="none">
+              <ion-thumbnail slot="start">
+                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
+              </ion-thumbnail>
+              <ion-label>Item</ion-label>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+  </div>
+  <footer>
+    <div class="boton">
+      <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
+      <p>Home</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Map" [routerLink]="['/ruta']"></ion-icon>
+      <p>Mapa</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="person" [routerLink]="['/usuario']"></ion-icon>
+      <p>Perfil</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Car" [routerLink]="['/viajes']"></ion-icon>
+      <p>Viajes</p>
+    </div>
+  </footer>
+</ion-content>

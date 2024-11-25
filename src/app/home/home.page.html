@@ -1,0 +1,11 @@
+<ion-content [fullscreen]="true">
+<ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+  <div class="contenedor">
+    <ion-icon src="/assets/taxi.svg" id="logo"></ion-icon>
+    <h1>DuOkTrip</h1>
+    <input type="text" placeholder="Nombre de usuario" (blur)="animarError(0)">
+    <input type="password" placeholder="Contraseña" (blur)="animarError(1)">
+    <button>Ingresar</button>
+    <h1 routerLink="/formulario">¿No tienes cuenta? <span>Registrate</span></h1>
+  </div>
+</ion-content>
