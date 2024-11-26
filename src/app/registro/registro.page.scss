@@ -9,17 +9,20 @@ input, button{
   }
 
   input{
-    background-color: var(--fondo-input);
+    background-color: var(--fondo-input2);
     color: #f8b627;
 
   }
-
-  
-  ion-button, .boton{
+  input::placeholder {
+    color: var(--textos); /* Puedes usar una variable CSS o un color fijo */
+    opacity: 1;
+  }
+  .boton{
     background-color: var(--boton);
     color: var(--textos);
     border-radius: 0px;
     margin-top: 6vh;
+    height: 7vh;
   }
 
   h1, p{
@@ -60,3 +63,21 @@ input, button{
 .retroceder{
   background-color: var(--fondo);
 }
+ion-label{
+  color: var(--icono-tema);
+}
+.radiogroup {
+  width: 100%;
+}
+ion-item::part(native) {
+  background-color: var(--fondo-input2);
+  width: 100%;
+}
+
+ion-list-header.md.hydrated {
+  margin-top: 2vh;
+  margin-bottom: -2vh;
+  display: flex;
+  flex-direction: column;
+}
+

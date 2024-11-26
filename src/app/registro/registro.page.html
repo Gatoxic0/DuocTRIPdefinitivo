@@ -12,27 +12,27 @@
     <input type="text" placeholder="Nombre de usuario" [(ngModel)]="datosUsuario.nombre" />
     <input type="email" placeholder="Correo electronico" [(ngModel)]="datosUsuario.correo" />
     <input type="password" placeholder="Contraseña" [(ngModel)]="datosUsuario.contrasena" />
-    
+    <div class="radiogroup">
     <ion-radio-group (ionChange)="onConductorChange($event)">
       <ion-list-header>
         <ion-label>¿Eres conductor?</ion-label>
       </ion-list-header>
 
-      <ion-item>
+      <ion-item class="item">
         <ion-label>Sí</ion-label>
         <ion-radio slot="start" value="si"></ion-radio>
       </ion-item>
 
-      <ion-item>
+      <ion-item class="item">
         <ion-label>No</ion-label>
         <ion-radio slot="start" value="no"></ion-radio>
       </ion-item>
     </ion-radio-group>
-
+  </div>
     <input type="text" placeholder="Patente" [(ngModel)]="datosUsuario.patente" maxlength="6"  [disabled]="!esConductor" />
     <input type="text" placeholder="Vehículo" [(ngModel)]="datosUsuario.vehiculo" [disabled]="!esConductor"  />
     
-    <ion-button class="boton" expand="full" (click)="registrar()">Registrar</ion-button>
+    <button class="boton" (click)="registrar()">Registrar</button>
   </div>
 
 </ion-content>

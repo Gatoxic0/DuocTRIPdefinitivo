@@ -149,10 +149,14 @@ export class RegistroPage {
       document.documentElement.style.setProperty('--fondo', '#0072e7');
       document.documentElement.style.setProperty('--textos', '#ffffff');
       document.documentElement.style.setProperty('--boton', '#ffc800');
+      document.documentElement.style.setProperty('--fondo-input2', '#056cd3');
+
     } else {
       document.documentElement.style.setProperty('--fondo', '#2f353e');
       document.documentElement.style.setProperty('--textos', '#ffffff');
       document.documentElement.style.setProperty('--boton', '#1e2023');
+      document.documentElement.style.setProperty('--fondo-input2', '#434343');
+
     }
   }
 
@@ -161,11 +165,14 @@ export class RegistroPage {
       document.documentElement.style.setProperty('--fondo', '#2f353e');
       document.documentElement.style.setProperty('--textos', '#ffffff');
       document.documentElement.style.setProperty('--boton', '#1e2023');
+      document.documentElement.style.setProperty('--fondo-input2', '#434343');
+
       this.icono = 'claro';
     } else {
       document.documentElement.style.setProperty('--fondo', '#0072e7');
       document.documentElement.style.setProperty('--textos', '#ffffff');
       document.documentElement.style.setProperty('--boton', '#ffc800');
+      document.documentElement.style.setProperty('--fondo-input2', '#056cd3');
       this.icono = 'oscuro';
     }
     localStorage.setItem('icono', this.icono);
