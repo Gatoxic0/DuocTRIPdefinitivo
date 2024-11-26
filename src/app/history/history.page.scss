@@ -2,8 +2,8 @@
     background-color: var(--fondo);
     display: flex;
     flex-direction: column;
-    height: calc(100vh - 5rem);
-    max-height: calc(100vh - 5rem);
+    height: calc(100vh - 9rem);
+    max-height: calc(100vh - 9rem);
     overflow: auto;
     align-items: center;
   
@@ -43,4 +43,15 @@
     font-size: 1.5rem;
   }
   
-  
+  .retroceder{
+    background-color: var(--fondo);
+  }
+
+
+  .list-md {
+
+    margin-top: 20vh;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    background: var(--ion-item-background, var(--ion-background-color, #fff));
+}
