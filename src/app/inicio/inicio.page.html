@@ -15,12 +15,17 @@
         <h3>Destino: {{ viaje.destination }}</h3>
         <p>Conductor: {{ viaje.driverName }}</p>
         <p>Patente: {{ viaje.driverLicensePlate }}</p>
-        <p>Cantidad de asientos ocupados: {{ viaje.seatsOccupied }} / 4</p>
+        <p>Pasajeros: {{ viaje.seatsOccupied }} / 4</p>
       </ion-label>
+      <!-- Botón para unirse al viaje -->
+      <ion-button 
+        *ngIf="viaje.seatsOccupied < 4" 
+        expand="block" 
+        (click)="joinTrip(viaje)">
+        Unirme al viaje
+      </ion-button>
+      <ion-badge *ngIf="viaje.seatsOccupied >= 4" color="danger">Viaje completo</ion-badge>
     </ion-item>
-
-    <!-- Botón para iniciar un viaje -->
-    <ion-button expand="full" (click)="startTrip()">Iniciar Viaje</ion-button>
 
     <!-- Mensaje de alerta si no hay capacidad -->
     <ion-alert *ngIf="alertMessage" header="Advertencia" message="{{ alertMessage }}" buttons="OK"></ion-alert>
