@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inicio',
@@ -7,13 +8,31 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-
+  
   icono ="oscuro"
+  
+    trip = {
+    origin: '',
+    destination: '',
+    date: '',
+  };
+
 
 
   constructor(
-    private anim: AnimationController
-  ) {}
+    private anim: AnimationController,
+    private router: Router  ) {}
+
+    startTrip() {
+      if (this.trip.origin && this.trip.destination && this.trip.date) {
+        let trips = JSON.parse(localStorage.getItem('trips') || '[]');
+        trips.push(this.trip);
+        localStorage.setItem('trips', JSON.stringify(trips));
+        this.router.navigate(['/history']);
+      } else {
+        alert('Por favor, completa todos los campos.');
+      }
+    }
 
   ngOnInit() {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
