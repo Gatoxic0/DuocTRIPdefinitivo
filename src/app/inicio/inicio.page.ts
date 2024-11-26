@@ -11,28 +11,38 @@ export class InicioPage implements OnInit {
   
   icono ="oscuro"
   
-    trip = {
-    origin: '',
-    destination: '',
-    date: '',
-  };
-
+ // Lista para almacenar los viajes en curso
+ trips: any[] = [];
+ maxTrips = 4; // Máximo de 4 viajes activos
+ trip = {
+   origin: '',
+   destination: '',
+   date: ''
+ };
+ alertMessage: string = '';
 
 
   constructor(
     private anim: AnimationController,
     private router: Router  ) {}
+ // Función para iniciar el viaje
+ startTrip() {
+  if (this.trips.length >= this.maxTrips) {
+    // Si ya hay 4 viajes activos, mostrar un mensaje de alerta
+    this.alertMessage = 'No hay capacidad para más viajes. Redirigiendo al inicio.';
+    setTimeout(() => {
+      this.router.navigate(['/inicio']); // Redirige al inicio después de 3 segundos
+    }, 3000);
+  } else {
+    // Si hay capacidad, agregar el viaje a la lista
+    this.trips.push({ ...this.trip });
+    this.trip = { origin: '', destination: '', date: '' }; // Limpiar los campos
+    this.alertMessage = ''; // Limpiar el mensaje de alerta
+  }
+}
 
-    startTrip() {
-      if (this.trip.origin && this.trip.destination && this.trip.date) {
-        let trips = JSON.parse(localStorage.getItem('trips') || '[]');
-        trips.push(this.trip);
-        localStorage.setItem('trips', JSON.stringify(trips));
-        this.router.navigate(['/history']);
-      } else {
-        alert('Por favor, completa todos los campos.');
-      }
-    }
+
+
 
   ngOnInit() {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto

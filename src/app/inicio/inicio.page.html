@@ -3,33 +3,36 @@
     <ion-buttons slot="start">
       <ion-back-button default-href="#"></ion-back-button>
     </ion-buttons>
-</div>
-  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
-    <div class="contenedor">
-    
-   
-      <ion-item>
-        <ion-label>Origen</ion-label>
-        <ion-input placeholder="Ingresa el origen" [(ngModel)]="trip.origin"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Destino</ion-label>
-        <ion-input placeholder="Ingresa el destino" [(ngModel)]="trip.destination"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Fecha</ion-label>
-        <ion-datetime [(ngModel)]="trip.date"></ion-datetime>
-      </ion-item>
-      <ion-button expand="full" (click)="startTrip()">Iniciar Viaje</ion-button>
-      
   </div>
+
+  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+
+  <!-- Contenedor de los viajes -->
+  <div class="contenedor">
+    <ion-item *ngFor="let viaje of trips">
+      <ion-label>
+        <h2>Origen: {{ viaje.origin }}</h2>
+        <h3>Destino: {{ viaje.destination }}</h3>
+        <p>Conductor: {{ viaje.driverName }}</p>
+        <p>Patente: {{ viaje.driverLicensePlate }}</p>
+        <p>Cantidad de asientos ocupados: {{ viaje.seatsOccupied }} / 4</p>
+      </ion-label>
+    </ion-item>
+
+    <!-- Botón para iniciar un viaje -->
+    <ion-button expand="full" (click)="startTrip()">Iniciar Viaje</ion-button>
+
+    <!-- Mensaje de alerta si no hay capacidad -->
+    <ion-alert *ngIf="alertMessage" header="Advertencia" message="{{ alertMessage }}" buttons="OK"></ion-alert>
+  </div>
+
   <footer>
     <div class="boton">
       <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
       <p>Home</p>
     </div>
     <div class="boton">
-      <ion-icon name="Map" [routerLink]="['/ruta']"></ion-icon>
+      <ion-icon name="map" [routerLink]="['/ruta']"></ion-icon>
       <p>Mapa</p>
     </div>
     <div class="boton" (click)="redirigir()">
@@ -37,7 +40,7 @@
       <p>Perfil</p>
     </div>
     <div class="boton">
-      <ion-icon name="Car" [routerLink]="['/history']"></ion-icon>
+      <ion-icon name="car" [routerLink]="['/history']"></ion-icon>
       <p>Viajes</p>
     </div>
   </footer>
