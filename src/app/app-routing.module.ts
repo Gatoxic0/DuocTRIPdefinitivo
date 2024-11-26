@@ -12,10 +12,6 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   {
-    path: 'formulario',
-    loadChildren: () => import('./formulario/formulario.module').then( m => m.FormularioPageModule)
-  },
-  {
     path: 'inicio',
     loadChildren: () => import('./inicio/inicio.module').then( m => m.InicioPageModule)
   },
@@ -26,7 +22,8 @@ const routes: Routes = [
   {
     path: 'registro',
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
-  },  {
+  },
+  {
     path: 'history',
     loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
   },
