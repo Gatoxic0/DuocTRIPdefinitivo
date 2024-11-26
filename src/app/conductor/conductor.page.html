@@ -9,9 +9,6 @@
   <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
   <div class="contenedor">
   <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Perfil de conductor</ion-title>
-    </ion-toolbar>
   </ion-header>
   <div class="foto-perfil">
     <img id="perfil" src="/assets/foto-perfil.png" alt="">
@@ -24,7 +21,7 @@
     <p><strong>Patente:</strong> {{ patente }}</p>
     <p><strong>Vehículo:</strong> {{ vehiculo }}</p>
   </div>
-  <ion-button expand="full" (click)="cerrarSesion()">CERRAR SESION</ion-button>
+  <button (click)="cerrarSesion()">CERRAR SESION</button>
 </div>
 
   <footer>
