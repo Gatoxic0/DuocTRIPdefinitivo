@@ -1,16 +1,41 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Historial de Viajes</ion-title>
-  </ion-toolbar>
-</ion-header>
-
-<ion-content>
-  <ion-list>
-    <ion-item *ngFor="let trip of trips" (click)="viewDetails(trip)">
-      <ion-label>
-        <h2>{{ trip.origin }} → {{ trip.destination }}</h2>
-        <p>{{ trip.date }}</p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+<ion-content [fullscreen]="true">
+  <div>
+    <ion-buttons slot="start">
+      <ion-back-button default-href="#"></ion-back-button>
+    </ion-buttons>
+</div>
+  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+    <div class="contenedor">
+   
+      <div>
+        <ion-list>
+          <ion-item *ngFor="let trip of trips" (click)="viewDetails(trip)">
+            <ion-label>
+              <h2>{{ trip.origin }} → {{ trip.destination }}</h2>
+              <p>{{ trip.date }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </div>
+      
+      
+  </div>
+  <footer>
+    <div class="boton">
+      <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
+      <p>Home</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Map" [routerLink]="['/ruta']"></ion-icon>
+      <p>Mapa</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="person" [routerLink]="['/usuario']"></ion-icon>
+      <p>Perfil</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Car" [routerLink]="['/history']"></ion-icon>
+      <p>Viajes</p>
+    </div>
+  </footer>
 </ion-content>
