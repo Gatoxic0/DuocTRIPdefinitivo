@@ -11,7 +11,6 @@ import { Router } from '@angular/router';
 export class HomePage implements OnInit {
   icono ="oscuro";
   esConductor: boolean = false; 
-  isModalOpen = false;
   datosUsuario: any = {
     nombre: '',
     correo: '',
