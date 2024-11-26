@@ -1,15 +1,15 @@
 <ion-content [fullscreen]="true">
-  <div>
+  <div class="retroceder">
     <ion-buttons slot="start">
       <ion-back-button default-href="#"></ion-back-button>
     </ion-buttons>
-  </div>
+</div>
 
   <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
 
   <!-- Contenedor de los viajes -->
   <div class="contenedor">
-    <ion-item *ngFor="let viaje of trips">
+    <ion-item class="iteminicio"*ngFor="let viaje of trips">
       <ion-label>
         <h2>Origen: {{ viaje.origin }}</h2>
         <h3>Destino: {{ viaje.destination }}</h3>
