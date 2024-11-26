@@ -1,0 +1,44 @@
+<ion-header [translucent]="true">
+</ion-header>
+<ion-content [fullscreen]="true">
+  <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+  <div class="contenedor">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Perfil de conductor</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <div class="foto-perfil">
+    <img id="perfil" src="/assets/foto-perfil.png" alt="">
+  </div>
+  <div class="info-usuario">
+    <h1>{{ nombreUsuario }}</h1>
+    <p>{{ tipoUsuario }}</p> <!-- Mostrar el tipo de usuario -->
+  </div>
+  <div id="info-conductor" *ngIf="tipoUsuario === 'conductor'">
+    <p><strong>Patente:</strong> {{ patente }}</p>
+    <p><strong>Vehículo:</strong> {{ vehiculo }}</p>
+  </div>
+  <ion-button expand="full" (click)="cerrarSesion()">CERRAR SESION</ion-button>
+</div>
+
+  <footer>
+    <div class="boton">
+      <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
+      <p>Home</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Map" [routerLink]="['/ruta']"></ion-icon>
+      <p>Mapa</p>
+    </div>
+    <div class="boton" (click)="redirigir()">
+      <ion-icon name="person"></ion-icon>
+      <p>Perfil</p>
+    </div>
+    <div class="boton">
+      <ion-icon name="Car" [routerLink]="['/viajes']"></ion-icon>
+      <p>Viajes</p>
+    </div>
+  </footer>
+</ion-content>
+

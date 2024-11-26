@@ -38,7 +38,7 @@ export class HomePage implements OnInit {
 
   iniciarSesion() {
     let usuarios = JSON.parse(localStorage.getItem('usuarios')!) || [];
-  
+    
     const usuarioEncontrado = usuarios.find((usuario: any) =>
       usuario.nombre === this.datosUsuario.nombre && 
       usuario.contrasena === this.datosUsuario.contrasena
@@ -47,16 +47,14 @@ export class HomePage implements OnInit {
     if (usuarioEncontrado) {
       // Guardar los datos del usuario logueado en localStorage
       localStorage.setItem('usuarioLogueado', JSON.stringify(usuarioEncontrado));
+      
+      console.log('Inicio de sesión exitoso como:', usuarioEncontrado.tipo);
   
-      if (usuarioEncontrado.tipo === 'conductor') {
-        console.log('Inicio de sesión exitoso como conductor:', usuarioEncontrado);
-        this.router.navigate(['/inicio']);
-      } else if (usuarioEncontrado.tipo === 'usuario') {
-        console.log('Inicio de sesión exitoso como usuario:', usuarioEncontrado);
-        this.router.navigate(['/inicio']);
-      } else {
-        console.error('El tipo de usuario no es válido.');
-      }
+      // Limpiar los campos después de iniciar sesión correctamente
+      this.datosUsuario.nombre = '';
+      this.datosUsuario.contrasena = '';
+  
+      this.router.navigate(['/inicio']);
     } else {
       console.error('Usuario o contraseña incorrectos.');
       this.animarError(0); // animar el campo de nombre
