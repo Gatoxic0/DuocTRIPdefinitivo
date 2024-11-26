@@ -1,43 +1,22 @@
 <ion-content [fullscreen]="true">
   <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
     <div class="contenedor">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-title>Card Title</ion-card-title>
-          <ion-card-subtitle>Card Subtitle</ion-card-subtitle>
-        </ion-card-header>
-        <ion-card-content>
-          <ion-list>
-            <ion-item>
-              <ion-thumbnail slot="start">
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-              </ion-thumbnail>
-              <ion-label>Item</ion-label>
-            </ion-item>
+    
+   
+      <ion-item>
+        <ion-label>Origen</ion-label>
+        <ion-input placeholder="Ingresa el origen" [(ngModel)]="trip.origin"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Destino</ion-label>
+        <ion-input placeholder="Ingresa el destino" [(ngModel)]="trip.destination"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Fecha</ion-label>
+        <ion-datetime [(ngModel)]="trip.date"></ion-datetime>
+      </ion-item>
+      <ion-button expand="full" (click)="startTrip()">Iniciar Viaje</ion-button>
       
-            <ion-item>
-              <ion-thumbnail slot="start">
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-              </ion-thumbnail>
-              <ion-label>Item</ion-label>
-            </ion-item>
-      
-            <ion-item>
-              <ion-thumbnail slot="start">
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-              </ion-thumbnail>
-              <ion-label>Item</ion-label>
-            </ion-item>
-      
-            <ion-item lines="none">
-              <ion-thumbnail slot="start">
-                <img alt="Silhouette of mountains" src="https://ionicframework.com/docs/img/demos/thumbnail.svg" />
-              </ion-thumbnail>
-              <ion-label>Item</ion-label>
-            </ion-item>
-          </ion-list>
-        </ion-card-content>
-      </ion-card>
   </div>
   <footer>
     <div class="boton">
@@ -53,7 +32,7 @@
       <p>Perfil</p>
     </div>
     <div class="boton">
-      <ion-icon name="Car" [routerLink]="['/viajes']"></ion-icon>
+      <ion-icon name="Car" [routerLink]="['/history']"></ion-icon>
       <p>Viajes</p>
     </div>
   </footer>

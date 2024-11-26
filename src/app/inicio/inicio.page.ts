@@ -8,12 +8,40 @@ import { Router } from '@angular/router';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
+<<<<<<< HEAD
   icono: string = "oscuro";
 
   constructor(
     private anim: AnimationController,
     private router: Router // Para redirigir
   ) {}
+=======
+  
+  icono ="oscuro"
+  
+    trip = {
+    origin: '',
+    destination: '',
+    date: '',
+  };
+
+
+
+  constructor(
+    private anim: AnimationController,
+    private router: Router  ) {}
+
+    startTrip() {
+      if (this.trip.origin && this.trip.destination && this.trip.date) {
+        let trips = JSON.parse(localStorage.getItem('trips') || '[]');
+        trips.push(this.trip);
+        localStorage.setItem('trips', JSON.stringify(trips));
+        this.router.navigate(['/history']);
+      } else {
+        alert('Por favor, completa todos los campos.');
+      }
+    }
+>>>>>>> 72c1eacc6cc35af4d7f9f0b8b411f18e6ba6cd92
 
   ngOnInit() {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
@@ -96,5 +124,12 @@ export class InicioPage implements OnInit {
     // Si deseas, puedes animar el logo aquí, después de cambiar el tema.
     this.animarLogo();
     localStorage.setItem('icono', this.icono);
+<<<<<<< HEAD
   }
 }
+=======
+
+}
+
+}
+>>>>>>> 72c1eacc6cc35af4d7f9f0b8b411f18e6ba6cd92
