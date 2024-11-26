@@ -8,104 +8,46 @@ import { Router } from '@angular/router';
   styleUrls: ['./inicio.page.scss'],
 })
 export class InicioPage implements OnInit {
-  
-  icono ="oscuro"
-  
- // Lista para almacenar los viajes en curso
- trips: any[] = [];
- maxTrips = 4; // Máximo de 4 viajes activos
- trip = {
-   origin: '',
-   destination: '',
-   date: ''
- };
- alertMessage: string = '';
+  icono = "oscuro";
 
+  // Lista para almacenar los viajes en curso
+  trips: any[] = [];
+  maxTrips = 4; // Máximo de 4 pasajeros por viaje
+  alertMessage: string = '';
 
-  constructor(
-    private anim: AnimationController,
-    private router: Router  ) {}
- // Función para iniciar el viaje
- startTrip() {
-  if (this.trips.length >= this.maxTrips) {
-    // Si ya hay 4 viajes activos, mostrar un mensaje de alerta
-    this.alertMessage = 'No hay capacidad para más viajes. Redirigiendo al inicio.';
-    setTimeout(() => {
-      this.router.navigate(['/inicio']); // Redirige al inicio después de 3 segundos
-    }, 3000);
-  } else {
-    // Si hay capacidad, agregar el viaje a la lista
-    this.trips.push({ ...this.trip });
-    this.trip = { origin: '', destination: '', date: '' }; // Limpiar los campos
-    this.alertMessage = ''; // Limpiar el mensaje de alerta
-  }
-}
-
-
-
+  constructor(private anim: AnimationController, private router: Router) {}
 
   ngOnInit() {
-    this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
+    // Datos iniciales
+    this.trips = [
+      {
+        origin: 'Ciudad A',
+        destination: 'Ciudad B',
+        driverName: 'Juan Pérez',
+        driverLicensePlate: 'ABC123',
+        seatsOccupied: 2, // Cantidad de pasajeros inicial
+      },
+      {
+        origin: 'Ciudad C',
+        destination: 'Ciudad D',
+        driverName: 'María López',
+        driverLicensePlate: 'XYZ789',
+        seatsOccupied: 4, // Viaje lleno
+      },
+    ];
+
+    this.icono = localStorage.getItem('icono') || 'oscuro';
     this.setTema();
     this.animarLogo();
   }
 
-  // Método para redirigir al perfil según el tipo de usuario
-  redirigir() {
-    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
-
-    if (usuarioLogueado) {
-      if (usuarioLogueado.tipo === 'conductor') {
-        this.router.navigate(['/conductor']); // Redirige a la página del conductor
-      } else if (usuarioLogueado.tipo === 'usuario') {
-        this.router.navigate(['/usuario']); // Redirige a la página del usuario
-      } else {
-        console.error('Tipo de usuario desconocido:', usuarioLogueado.tipo);
-      }
+  // Función para unirse al viaje
+  joinTrip(viaje: any) {
+    if (viaje.seatsOccupied < this.maxTrips) {
+      viaje.seatsOccupied++;
+      this.alertMessage = `Te has unido al viaje de ${viaje.driverName}`;
     } else {
-      console.error('No hay un usuario logueado.');
-    }
-  }
-
-  // Método para animar el logo
-  animarLogo() {
-    this.anim.create()
-      .addElement(document.querySelector("#logo")!)
-      .duration(1000)
-      .iterations(Infinity)
-      .direction('alternate')
-      .fromTo("color", "red", "blue")
-      .fromTo("transform", "scale(.8)", "scale(1)")
-      .play();
-  }
-
-  // Método para animar errores en campos
-  animarError(index: number) {
-    this.anim.create()
-      .addElement(document.querySelectorAll("input")[index])
-      .duration(100)
-      .direction("alternate")
-      .iterations(3)
-      .keyframes([
-        { offset: 0, transform: "translateX(0px)", border: "1px transparent solid" },
-        { offset: 0.25, transform: "translateX(-5px)", border: "1px red solid" },
-        { offset: 0.50, transform: "translateX(0px)", border: "1px transparent solid" },
-        { offset: 0.75, transform: "translateX(5px)", border: "1px red solid" },
-        { offset: 1, transform: "translateX(0px)", border: "1px transparent solid" },
-      ])
-      .play();
-  }
-
-  // Configuración del tema según el estado
-  setTema() {
-    if (this.icono === "oscuro") {
-      document.documentElement.style.setProperty("--fondo", "#0072e7");
-      document.documentElement.style.setProperty("--textos", "#ffffff");
-      document.documentElement.style.setProperty("--boton", "#ffc800");
-    } else {
-      document.documentElement.style.setProperty("--fondo", "#2f353e");
-      document.documentElement.style.setProperty("--textos", "#ffffff");
-      document.documentElement.style.setProperty("--boton", "#1e2023");
+      this.alertMessage = 'No puedes unirte. Este viaje ya está completo.';
     }
   }
 
@@ -122,8 +64,34 @@ export class InicioPage implements OnInit {
       document.documentElement.style.setProperty("--boton", "#ffc800");
       this.icono = "oscuro";
     }
-    // Si deseas, puedes animar el logo aquí, después de cambiar el tema.
-    this.animarLogo();
     localStorage.setItem('icono', this.icono);
+  }
+
+  // Métodos para animar y manejar errores (se mantienen del código anterior)
+  animarLogo() {
+    this.anim.create()
+      .addElement(document.querySelector("#logo")!)
+      .duration(1000)
+      .iterations(Infinity)
+      .direction('alternate')
+      .fromTo("color", "red", "blue")
+      .fromTo("transform", "scale(.8)", "scale(1)")
+      .play();
+  }
+
+  setTema() {
+    if (this.icono === "oscuro") {
+      document.documentElement.style.setProperty("--fondo", "#0072e7");
+      document.documentElement.style.setProperty("--textos", "#ffffff");
+      document.documentElement.style.setProperty("--boton", "#ffc800");
+    } else {
+      document.documentElement.style.setProperty("--fondo", "#2f353e");
+      document.documentElement.style.setProperty("--textos", "#ffffff");
+      document.documentElement.style.setProperty("--boton", "#1e2023");
+    }
+  }
+  redirigir() {
+    console.log('Redirigiendo desde InicioPage');
+    // Lógica de redirección
   }
 }
