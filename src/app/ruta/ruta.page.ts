@@ -1,4 +1,5 @@
 import { Component, ElementRef, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AnimationController, Platform } from '@ionic/angular';
 
 declare var google: any;
@@ -15,7 +16,7 @@ export class RutaPage {
     
 
 
-  constructor(private platform: Platform, private zone: NgZone, private anim: AnimationController ) { }
+  constructor(private platform: Platform, private zone: NgZone, private anim: AnimationController, private router: Router) { }
   carrito: any[] = []
   input = ""
   autocompleteItems!: any[];
@@ -163,7 +164,21 @@ export class RutaPage {
     this.animarLogo();
 
   }
+  redirigir() {
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
 
+    if (usuarioLogueado) {
+      if (usuarioLogueado.tipo === 'conductor') {
+        this.router.navigate(['/conductor']); // Redirige a la página del conductor
+      } else if (usuarioLogueado.tipo === 'usuario') {
+        this.router.navigate(['/usuario']); // Redirige a la página del usuario
+      } else {
+        console.error('Tipo de usuario desconocido:', usuarioLogueado.tipo);
+      }
+    } else {
+      console.error('No hay un usuario logueado.');
+    }
+  }
   animarLogo(){
     this.anim.create()
     .addElement (document.querySelector("#logo")!)

@@ -91,7 +91,18 @@ export class InicioPage implements OnInit {
     }
   }
   redirigir() {
-    console.log('Redirigiendo desde InicioPage');
-    // Lógica de redirección
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
+
+    if (usuarioLogueado) {
+      if (usuarioLogueado.tipo === 'conductor') {
+        this.router.navigate(['/conductor']); // Redirige a la página del conductor
+      } else if (usuarioLogueado.tipo === 'usuario') {
+        this.router.navigate(['/usuario']); // Redirige a la página del usuario
+      } else {
+        console.error('Tipo de usuario desconocido:', usuarioLogueado.tipo);
+      }
+    } else {
+      console.error('No hay un usuario logueado.');
+    }
   }
 }

@@ -53,6 +53,7 @@ img#perfil {
   
     button{
       background-color: (var(--boton));
+      
     }
   
     h1, p{
@@ -72,3 +73,6 @@ img#perfil {
   .retroceder{
     background-color: var(--fondo);
   }
+  footer {
+    height: 7rem;
+}
