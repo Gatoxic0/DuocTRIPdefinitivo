@@ -1,6 +1,8 @@
-import { query } from '@angular/animations';
 import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
+import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { LoadingController } from '@ionic/angular';
 
 @Component({
   selector: 'app-home',
@@ -8,20 +10,60 @@ import { AnimationController } from '@ionic/angular';
   styleUrls: ['home.page.scss'],
 })
 export class HomePage implements OnInit {
+  icono ="oscuro";
+  esConductor: boolean = false; 
+  isModalOpen = false;
+  datosUsuario: any = {
+    nombre: '',
+    correo: '',
+    contrasena: '',
+    patente: '',
+    vehiculo: '',
+    conductor: 'no',
+  };
 
-  icono ="oscuro"
-
+  email: string = '';
+  clave: string = '';
 
   constructor(
-    private anim: AnimationController
+    private anim: AnimationController,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
     this.setTema();
     this.animarLogo();
-
   }
+
+  iniciarSesion() {
+    let usuarios = JSON.parse(localStorage.getItem('usuarios')!) || [];
+  
+    const usuarioEncontrado = usuarios.find((usuario: any) =>
+      usuario.nombre === this.datosUsuario.nombre && 
+      usuario.contrasena === this.datosUsuario.contrasena
+    );
+  
+    if (usuarioEncontrado) {
+      // Guardar los datos del usuario logueado en localStorage
+      localStorage.setItem('usuarioLogueado', JSON.stringify(usuarioEncontrado));
+  
+      if (usuarioEncontrado.tipo === 'conductor') {
+        console.log('Inicio de sesión exitoso como conductor:', usuarioEncontrado);
+        this.router.navigate(['/inicio']);
+      } else if (usuarioEncontrado.tipo === 'usuario') {
+        console.log('Inicio de sesión exitoso como usuario:', usuarioEncontrado);
+        this.router.navigate(['/inicio']);
+      } else {
+        console.error('El tipo de usuario no es válido.');
+      }
+    } else {
+      console.error('Usuario o contraseña incorrectos.');
+      this.animarError(0); // animar el campo de nombre
+      this.animarError(1); // animar el campo de contraseña
+    }
+  }
+  
 
   animarLogo(){
     this.anim.create()
@@ -78,5 +120,4 @@ export class HomePage implements OnInit {
     localStorage.setItem('icono', this.icono);
 
 }
-
 }
