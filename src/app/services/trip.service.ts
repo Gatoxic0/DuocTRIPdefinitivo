@@ -1,20 +1,25 @@
 import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class TripService {
-  private trips: any[] = []; // Almacenamos los viajes en memoria
+  private trips: any[] = [];
 
-  constructor() {}
+  constructor() {
+    // Cargar viajes existentes desde localStorage
+    const savedTrips = JSON.parse(localStorage.getItem('trips') || '[]');
+    this.trips = savedTrips;
+  }
 
   // Obtener todos los viajes
   getTrips() {
     return this.trips;
   }
 
-  // Crear un nuevo viaje
+  // Agregar un nuevo viaje
   addTrip(trip: any) {
     this.trips.push(trip);
+    localStorage.setItem('trips', JSON.stringify(this.trips)); // Guardar en localStorage
   }
 }
