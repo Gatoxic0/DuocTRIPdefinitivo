@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AnimationController } from '@ionic/angular';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { LoadingController } from '@ionic/angular';
+
 
 @Component({
   selector: 'app-home',
@@ -49,10 +48,6 @@ export class HomePage implements OnInit {
       localStorage.setItem('usuarioLogueado', JSON.stringify(usuarioEncontrado));
       
       console.log('Inicio de sesión exitoso como:', usuarioEncontrado.tipo);
-  
-      // Limpiar los campos después de iniciar sesión correctamente
-      this.datosUsuario.nombre = '';
-      this.datosUsuario.contrasena = '';
   
       this.router.navigate(['/inicio']);
     } else {
