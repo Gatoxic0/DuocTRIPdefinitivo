@@ -46,3 +46,7 @@
 .contenedor, h1, p{
   transition: background-color .5s ease,  color .5s ease;
 }
+
+.retroceder{
+  background-color: var(--fondo);
+}

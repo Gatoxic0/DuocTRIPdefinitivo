@@ -1,13 +1,40 @@
+.contenedor {
+  position: relative; /* Permite que los elementos internos se posicionen de forma relativa a este contenedor */
+  background-color: var(--fondo);
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 6rem);
+  max-height: calc(100vh - 6rem);
+  overflow: hidden; /* Oculta los elementos fuera del contenedor */
+  align-items: center;
+}
+
 #map {
-  position: center;
- height: 70vh;
-  z-index: 30;
+  position: absolute; /* Superpone el mapa al contenedor */
+  top: 0; /* Asegura que el mapa comience desde el borde superior del contenedor */
+  left: 0; /* Asegura que el mapa comience desde el borde izquierdo del contenedor */
+  width: 100%; /* Hace que el mapa ocupe todo el ancho */
+  height: 100%; /* Hace que el mapa ocupe todo el alto del contenedor */
+  z-index: 1; /* Asegura que el mapa esté detrás de otros elementos como inputs o información */
+}
+
+#info-viaje {
+  position: absolute;
+  top: 0;
+  height: 3rem;
+  z-index: 2; /* Superpone la información del viaje al mapa */
+  background-color: #ffffffc7;
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  width: 100%;
+  font-weight: bold;
 }
 
 #input {
   position: absolute;
   bottom: calc(5rem + 10px);
-  z-index: 100;
+  z-index: 3; /* Asegura que el input esté visible sobre el mapa */
   width: 80%;
   left: 10%;
   height: 3rem;
@@ -23,7 +50,7 @@
   left: 10%;
   width: 80%;
   height: fit-content;
-  z-index: 100;
+  z-index: 3; /* Las rutas estarán sobre el mapa y el input */
   background-color: #ffffffc7;
   border-radius: 10px;
   padding: 10px;
@@ -35,28 +62,26 @@
   line-height: 2.4rem;
 }
 
-.ruta:last-child{
+.ruta:last-child {
   border-bottom: none;
 }
 
-#info-viaje{
-  position: absolute;
-  top: 0;
-  height: 3rem;
-  z-index: 101;
-  background-color: #ffffffc7;
-  display: flex;
-  justify-content: space-between;
-  padding: 10px;
+footer#footerRuta {
+  position: fixed;
+  bottom: 0;
   width: 100%;
-  font-weight: bold;
-}
-#info-viaje div{
+  height: 6rem;
+  background-color: var(--footer);
+  z-index: 4; /* Asegura que el footer esté siempre visible sobre todo */
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
-  column-gap: 5px;
 }
-#info-viaje div ion-icon{
-  font-size: 2rem;
+
+.boton {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
 }
