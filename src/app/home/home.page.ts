@@ -50,6 +50,10 @@ export class HomePage implements OnInit {
       
       console.log('Inicio de sesión exitoso como:', usuarioEncontrado.tipo);
   
+      // Limpiar los campos después de iniciar sesión correctamente
+      this.datosUsuario.nombre = '';
+      this.datosUsuario.contrasena = '';
+  
       this.router.navigate(['/inicio']);
     } else {
       console.error('Usuario o contraseña incorrectos.');

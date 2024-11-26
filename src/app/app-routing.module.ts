@@ -24,15 +24,13 @@ const routes: Routes = [
     loadChildren: () => import('./registro/registro.module').then( m => m.RegistroPageModule)
   },
   {
-<<<<<<< HEAD
     path: 'conductor',
     loadChildren: () => import('./conductor/conductor.module').then( m => m.ConductorPageModule)
   },
   {
     path: 'usuario',
     loadChildren: () => import('./usuario/usuario.module').then( m => m.UsuarioPageModule)
-  },
-=======
+  },{
     path: 'history',
     loadChildren: () => import('./history/history.module').then( m => m.HistoryPageModule)
   },
@@ -41,7 +39,6 @@ const routes: Routes = [
     loadChildren: () => import('./trip-details/trip-details.module').then( m => m.TripDetailsPageModule)
   },
 
->>>>>>> 72c1eacc6cc35af4d7f9f0b8b411f18e6ba6cd92
 ];
 
 @NgModule({
