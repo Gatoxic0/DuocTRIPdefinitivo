@@ -7,19 +7,28 @@
 <ion-content>
   <ion-item>
     <ion-label position="floating">Origen</ion-label>
-    <ion-input [(ngModel)]="newTrip.origin"></ion-input>
+    <ion-input [(ngModel)]="newTrip.origin" type="text" required></ion-input>
   </ion-item>
+
   <ion-item>
     <ion-label position="floating">Destino</ion-label>
-    <ion-input [(ngModel)]="newTrip.destination"></ion-input>
+    <ion-input [(ngModel)]="newTrip.destination" type="text" required></ion-input>
   </ion-item>
+
   <ion-item>
-    <ion-label position="floating">Conductor</ion-label>
-    <ion-input [(ngModel)]="newTrip.driverName"></ion-input>
+    <ion-label position="floating">Nombre del conductor</ion-label>
+    <ion-input [(ngModel)]="newTrip.driverName" type="text" required></ion-input>
   </ion-item>
+
   <ion-item>
-    <ion-label position="floating">Patente</ion-label>
-    <ion-input [(ngModel)]="newTrip.driverLicensePlate"></ion-input>
+    <ion-label position="floating">Placa del conductor</ion-label>
+    <ion-input [(ngModel)]="newTrip.driverLicensePlate" type="text" required></ion-input>
   </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Asientos ocupados</ion-label>
+    <ion-input [(ngModel)]="newTrip.seatsOccupied" type="number" min="0"></ion-input>
+  </ion-item>
+
   <ion-button expand="full" (click)="addTrip()">Crear Viaje</ion-button>
 </ion-content>
