@@ -11,8 +11,13 @@
       </div>
     </div>
     <div #map id="map"></div>
-    <input type="text" [(ngModel)]="end" (input)="updateSearchResults()" placeholder="Destino" id="input">
-    <div id="rutas" *ngIf="autocompleteItems" [hidden]="autocompleteItems.length == 0">
+    <input 
+      type="text" 
+      [(ngModel)]="end" 
+      (input)="updateSearchResults()" 
+      placeholder="Destino" 
+      id="input">
+    <div id="rutas" *ngIf="autocompleteItems.length > 0">
       <div class="ruta" *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
         {{ item.description }}
       </div>
@@ -20,11 +25,11 @@
   </div>
   <footer id="footerRuta">
     <div class="boton">
-      <ion-icon name="home" [routerLink]="['/home']"></ion-icon>
+      <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
       <p>Home</p>
     </div>
     <div class="boton">
-      <ion-icon name="Map" [routerLink]="['/ruta']"></ion-icon>
+      <ion-icon name="map" [routerLink]="['/ruta']"></ion-icon>
       <p>Mapa</p>
     </div>
     <div class="boton">
@@ -32,9 +37,8 @@
       <p>Perfil</p>
     </div>
     <div class="boton">
-      <ion-icon name="Car" [routerLink]="['/viajes']"></ion-icon>
-      <p>Viajes</p> 
-
+      <ion-icon name="car" [routerLink]="['/viajes']"></ion-icon>
+      <p>Viajes</p>
     </div>
   </footer>
 </ion-content>
