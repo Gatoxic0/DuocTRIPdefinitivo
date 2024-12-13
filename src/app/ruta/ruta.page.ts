@@ -25,8 +25,8 @@ export class RutaPage {
 
   @ViewChild('map') mapElement: ElementRef | undefined;
   public map: any;
-  public start: any = "Duoc UC: Sede Melipilla - Serrano, Melipilla, Chile";
-  public end: any = "Pomaire";
+  public start: any ;
+  public end: any ;
   // public latitude: any;
   // public longitude: any;
   public directionsService: any;
