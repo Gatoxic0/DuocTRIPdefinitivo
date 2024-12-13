@@ -1,33 +1,63 @@
 <ion-content [fullscreen]="true">
   <div class="contenedor">
- 
-
-
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Ruta</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cambiarTema()">
+            <ion-icon [name]="icono === 'oscuro' ? 'sunny' : 'moon'"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    
     <ion-content>
-      <ion-item>
-        <ion-label>Origen: </ion-label>
-        <ion-input [(ngModel)]="start" (ionInput)="updateSearchResults('start')"></ion-input>
-      </ion-item>
-      <ion-item>
-        <ion-label>Destino: </ion-label>
-        <ion-input [(ngModel)]="end" (ionInput)="updateSearchResults('end')"></ion-input>
-      </ion-item>
-    
-      <ion-list>
-        <ion-item *ngFor="let item of autocompleteItems" (click)="selectSearchResult(item)">
-          {{ item.description }}
+      <div>
+        <ion-item>
+          <ion-label position="stacked">Inicio</ion-label>
+          <ion-input
+            [(ngModel)]="start"
+            (ionInput)="updateSearchResults('start')"
+            (focus)="currentSearchField = 'start'"
+            placeholder="Escribe la dirección de inicio"
+          ></ion-input>
         </ion-item>
-      </ion-list>
     
-      <ion-button expand="full" (click)="calculateAndDisplayRoute()">Calcular Ruta</ion-button>
+        <ion-item>
+          <ion-label position="stacked">Destino</ion-label>
+          <ion-input
+            [(ngModel)]="end"
+            (ionInput)="updateSearchResults('end')"
+            (focus)="currentSearchField = 'end'"
+            placeholder="Escribe la dirección de destino"
+          ></ion-input>
+        </ion-item>
     
-      <div #map style="height: 100%;"></div>
+        <div *ngIf="autocompleteItems?.length">
+          <ion-list>
+            <ion-item
+              *ngFor="let item of autocompleteItems"
+              (click)="selectSearchResult(item)"
+            >
+              {{ item.description }}
+            </ion-item>
+          </ion-list>
+        </div>
+      </div>
     
-      <p>Distancia: {{ distancia }}</p>
-      <p>Duración: {{ duracion }}</p>
+      <div #map style="width: 100%; height: 300px; margin-top: 20px;"></div>
+    
+      <ion-card>
+        <ion-card-content>
+          <p><strong>Distancia:</strong> {{ distancia }}</p>
+          <p><strong>Duración:</strong> {{ duracion }}</p>
+        </ion-card-content>
+      </ion-card>
+    
+      <ion-button expand="full" (click)="calculateAndDisplayRoute()">
+        Calcular Ruta
+      </ion-button>
     </ion-content>
-
-    
 
   <footer id="footerRuta">
     <div class="boton">
