@@ -1,0 +1,12 @@
+ion-content {
+    --background: var(--fondo) !important;  /* Cambia el fondo solo para esta página */
+    color: #ffffff;                     /* Asegura que el texto sea visible */
+  }
+
+button{
+    background-color: (var(--boton));
+    width: 100%;
+    height: 7%;
+    font-size: 1rem;
+    font-weight: bold;
+}

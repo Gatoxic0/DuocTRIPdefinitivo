@@ -1,8 +1,18 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Crear Viaje</ion-title>
-  </ion-toolbar>
-</ion-header>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Ruta</ion-title>
+        <div class="retroceder">
+          <ion-buttons slot="start">
+            <ion-back-button default-href="#"></ion-back-button>
+          </ion-buttons>
+      </div>
+        <ion-buttons slot="end">
+          <ion-button (click)="cambiarTema()">
+            <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
 
 <ion-content>
   <ion-item>
@@ -37,5 +47,5 @@
     <ion-input [(ngModel)]="newTrip.seatsOccupied" type="number" min="0"></ion-input>
   </ion-item>
 
-  <ion-button expand="full" (click)="addTrip()">Crear Viaje</ion-button>
+  <button expand="full" (click)="addTrip()">Crear Viaje</button>
 </ion-content>

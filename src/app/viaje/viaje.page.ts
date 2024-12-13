@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core'; 
 import { Router } from '@angular/router';
 import { TripService } from '../services/trip.service';
 
@@ -18,7 +18,6 @@ export class ViajePage implements OnInit {
     seatsOccupied: 0,
   };
 
-  // Variables para el usuario logueado
   nombreUsuario: string = '';
   tipoUsuario: string = '';
   patente: string = '';
@@ -26,6 +25,7 @@ export class ViajePage implements OnInit {
 
   autocompleteItems: any[] = [];
   GoogleAutocomplete: any;
+  icono: string = 'oscuro'; // Estado del tema
 
   constructor(
     private tripService: TripService,
@@ -37,22 +37,23 @@ export class ViajePage implements OnInit {
 
   ngOnInit() {
     this.obtenerUsuarioLogueado();
-  
-    // Rellenar automáticamente los campos con los datos del conductor logueado
+
     if (this.tipoUsuario === 'conductor') {
       this.newTrip.driverName = this.nombreUsuario;
       this.newTrip.driverLicensePlate = this.patente;
     }
-  
-    // Recuperar destino desde localStorage
+
     const storedDestination = localStorage.getItem('destination');
     if (storedDestination) {
       this.newTrip.destination = storedDestination;
-      localStorage.removeItem('destination'); // Limpiar después de usar
+      localStorage.removeItem('destination');
     }
+
+    // Recuperar y aplicar el tema desde localStorage
+    this.icono = localStorage.getItem('icono') || 'oscuro';
+    this.setTema();
   }
 
-  // Obtener datos del usuario logueado desde localStorage
   obtenerUsuarioLogueado() {
     const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
     if (usuarioLogueado) {
@@ -63,7 +64,6 @@ export class ViajePage implements OnInit {
     }
   }
 
-  // Actualizar las sugerencias de búsqueda
   updateSearchResults() {
     if (this.newTrip.destination === '') {
       this.autocompleteItems = [];
@@ -84,13 +84,11 @@ export class ViajePage implements OnInit {
     );
   }
 
-  // Seleccionar un resultado de búsqueda
   selectSearchResult(item: any) {
     this.newTrip.destination = item.description;
     this.autocompleteItems = [];
   }
 
-  // Función para agregar un nuevo viaje
   addTrip() {
     if (
       this.newTrip.origin &&
@@ -98,10 +96,8 @@ export class ViajePage implements OnInit {
       this.newTrip.driverName &&
       this.newTrip.driverLicensePlate
     ) {
-      // Guardar el nuevo viaje
       this.tripService.addTrip({ ...this.newTrip });
 
-      // Resetear los campos después de agregar el viaje
       this.newTrip = {
         origin: '',
         destination: '',
@@ -110,14 +106,37 @@ export class ViajePage implements OnInit {
         seatsOccupied: 0,
       };
 
-      // Mostrar mensaje de éxito
       alert('Viaje creado exitosamente');
-
-      // Redirigir a la página de inicio
       this.router.navigate(['/inicio']);
     } else {
-      // Mostrar mensaje de error
       alert('Por favor, completa todos los campos');
+    }
+  }
+
+  cambiarTema() {
+    if (this.icono === 'oscuro') {
+      document.documentElement.style.setProperty('--fondo', '#2f353e');
+      document.documentElement.style.setProperty('--textos', '#ffffff');
+      document.documentElement.style.setProperty('--boton', '#1e2023');
+      this.icono = 'claro';
+    } else {
+      document.documentElement.style.setProperty('--fondo', '#0072e7');
+      document.documentElement.style.setProperty('--textos', '#ffffff');
+      document.documentElement.style.setProperty('--boton', '#ffc800');
+      this.icono = 'oscuro';
+    }
+    localStorage.setItem('icono', this.icono);
+  }
+
+  setTema() {
+    if (this.icono === 'oscuro') {
+      document.documentElement.style.setProperty('--fondo', '#0072e7');
+      document.documentElement.style.setProperty('--textos', '#ffffff');
+      document.documentElement.style.setProperty('--boton', '#ffc800');
+    } else {
+      document.documentElement.style.setProperty('--fondo', '#2f353e');
+      document.documentElement.style.setProperty('--textos', '#ffffff');
+      document.documentElement.style.setProperty('--boton', '#1e2023');
     }
   }
 }
