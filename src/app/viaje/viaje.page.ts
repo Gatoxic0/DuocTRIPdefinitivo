@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TripService } from '../services/trip.service';
+
+declare var google: any;
 
 @Component({
   selector: 'app-viaje',
@@ -22,7 +24,16 @@ export class ViajePage implements OnInit {
   patente: string = '';
   vehiculo: string = '';
 
-  constructor(private tripService: TripService, private router: Router) {}
+  autocompleteItems: any[] = [];
+  GoogleAutocomplete: any;
+
+  constructor(
+    private tripService: TripService,
+    private router: Router,
+    private zone: NgZone
+  ) {
+    this.GoogleAutocomplete = new google.maps.places.AutocompleteService();
+  }
 
   ngOnInit() {
     this.obtenerUsuarioLogueado();
@@ -43,6 +54,33 @@ export class ViajePage implements OnInit {
       this.patente = usuarioLogueado.patente || 'No disponible';
       this.vehiculo = usuarioLogueado.vehiculo || 'No disponible';
     }
+  }
+
+  // Actualizar las sugerencias de búsqueda
+  updateSearchResults() {
+    if (this.newTrip.destination === '') {
+      this.autocompleteItems = [];
+      return;
+    }
+    this.GoogleAutocomplete.getPlacePredictions(
+      { input: this.newTrip.destination },
+      (predictions: any, status: any) => {
+        this.autocompleteItems = [];
+        this.zone.run(() => {
+          if (status === google.maps.places.PlacesServiceStatus.OK && predictions) {
+            predictions.forEach((prediction: any) => {
+              this.autocompleteItems.push(prediction);
+            });
+          }
+        });
+      }
+    );
+  }
+
+  // Seleccionar un resultado de búsqueda
+  selectSearchResult(item: any) {
+    this.newTrip.destination = item.description;
+    this.autocompleteItems = [];
   }
 
   // Función para agregar un nuevo viaje

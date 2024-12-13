@@ -12,8 +12,15 @@
 
   <ion-item>
     <ion-label position="floating">Destino</ion-label>
-    <ion-input [(ngModel)]="newTrip.destination" type="text" required></ion-input>
+    <ion-input [(ngModel)]="newTrip.destination" type="text" (input)="updateSearchResults()" required></ion-input>
   </ion-item>
+
+  <!-- Lista de sugerencias para autocompletado -->
+  <div id="rutas" *ngIf="autocompleteItems.length > 0">
+    <div class="ruta" *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
+      {{ item.description }}
+    </div>
+  </div>
 
   <ion-item>
     <ion-label position="floating">Nombre del conductor</ion-label>
