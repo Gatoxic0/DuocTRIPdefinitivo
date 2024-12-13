@@ -89,10 +89,18 @@ export class RutaPage implements OnInit {
     }
 
     this.directionsDisplay.setMap(this.map);
-    this.calculateAndDisplayRoute();
   }
 
+  // Nueva función para calcular la ruta cuando se deje de escribir o al seleccionar un item
   calculateAndDisplayRoute() {
+    if (!this.end) {
+      alert("Por favor, ingrese un destino válido.");
+      return;
+    }
+
+    // Guardar el destino en localStorage
+    localStorage.setItem('destination', this.end);
+
     this.directionsService.route(
       {
         origin: this.start,
@@ -102,7 +110,6 @@ export class RutaPage implements OnInit {
       (response: any, status: string) => {
         if (status === 'OK') {
           this.directionsDisplay.setDirections(response);
-
           const route = response.routes[0];
           const leg = route.legs[0];
 
@@ -114,12 +121,13 @@ export class RutaPage implements OnInit {
           const seconds = durationInSeconds % 60;
           this.duracion = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         } else {
-          window.alert('Directions request failed due to ' + status);
+          alert('Direcciones fallaron debido a ' + status);
         }
       }
     );
   }
 
+  // Actualización de las sugerencias para el campo de destino
   updateSearchResults(field: 'start' | 'end') {
     const GoogleAutocomplete = new google.maps.places.AutocompleteService();
 
@@ -141,28 +149,22 @@ export class RutaPage implements OnInit {
     });
   }
 
+  // Cuando el usuario selecciona un lugar del autocompletado
   selectSearchResult(item: any) {
-    if (this.currentSearchField === 'start') {
-      this.start = item.description;
-    } else if (this.currentSearchField === 'end') {
+    this.zone.run(() => {
       this.end = item.description;
-
-      // Llamar a la función de cálculo de ruta automáticamente
+      this.autocompleteItems = []; // Limpia la lista de autocompletado
+      // Calcula la ruta automáticamente cuando el usuario selecciona un destino
       if (this.start && this.end) {
         this.calculateAndDisplayRoute();
       }
-    }
-    this.autocompleteItems = [];
+    });
   }
 
-
-  joinTrip(viaje: any) {
-    if (viaje.seatsOccupied < this.maxTrips) {
-      viaje.seatsOccupied++;
-      this.alertMessage = `Te has unido al viaje de ${viaje.driverName}`;
-      localStorage.setItem('trips', JSON.stringify(this.trips));
-    } else {
-      this.alertMessage = 'No puedes unirte. Este viaje ya está completo.';
+  // Llamar a la función cuando el input pierde foco (blur)
+  onBlur() {
+    if (this.start && this.end) {
+      this.calculateAndDisplayRoute();
     }
   }
 
@@ -203,7 +205,35 @@ export class RutaPage implements OnInit {
       document.documentElement.style.setProperty("--boton", "#1e2023");
     }
   }
-
+  confirmarRuta() {
+    if (!this.start || !this.end) {
+      alert('Por favor, ingrese la dirección de destino.');
+      return;
+    }
+  
+    // Guardar la ruta en el localStorage
+    localStorage.setItem('start', this.start);
+    localStorage.setItem('end', this.end);
+  
+    // Verificar el tipo de usuario
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
+  
+    if (usuarioLogueado) {
+      // Si es conductor, redirige a la página de viajes
+      if (usuarioLogueado.tipo === 'conductor') {
+        this.router.navigate(['/viaje']);
+      } else if (usuarioLogueado.tipo === 'usuario') {
+        // Si no es conductor, redirige a la página de inicio
+        this.router.navigate(['/inicio']);
+      } else {
+        console.error('Tipo de usuario desconocido:', usuarioLogueado.tipo);
+      }
+    } else {
+      console.error('No hay un usuario logueado.');
+    }
+  }
+  
+  
   redirigir() {
     const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);
 

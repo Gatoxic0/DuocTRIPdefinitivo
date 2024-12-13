@@ -55,7 +55,7 @@ export class HomePage implements OnInit {
   
       // Redirigir según el tipo de usuario
       if (usuarioEncontrado.tipo === 'conductor') {
-        this.router.navigate(['/viaje']); // Página del conductor
+        this.router.navigate(['/ruta']); // Página del conductor
       } else if (usuarioEncontrado.tipo === 'usuario') {
         this.router.navigate(['/inicio']); // Página del usuario
       } else {

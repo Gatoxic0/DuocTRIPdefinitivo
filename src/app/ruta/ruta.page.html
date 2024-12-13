@@ -26,12 +26,15 @@
         <ion-item>
           <ion-label position="stacked">Destino</ion-label>
           <ion-input
-            [(ngModel)]="end"
-            (ionInput)="updateSearchResults('end')"
-            (focus)="currentSearchField = 'end'"
-            placeholder="Escribe la dirección de destino"
-          ></ion-input>
+          [(ngModel)]="end"
+          (ionInput)="updateSearchResults('end')"
+          (focus)="currentSearchField = 'end'"
+          (blur)="onBlur()"  
+          placeholder="Escribe la dirección de destino"
+        ></ion-input>
+        
         </ion-item>
+        
     
         <div *ngIf="autocompleteItems?.length">
           <ion-list>
@@ -54,9 +57,10 @@
         </ion-card-content>
       </ion-card>
     
-      <ion-button expand="full" (click)="calculateAndDisplayRoute()">
-        Calcular Ruta
+      <ion-button expand="full" (click)="confirmarRuta()">
+        Confirmar Ruta
       </ion-button>
+      
     </ion-content>
 
   <footer id="footerRuta">

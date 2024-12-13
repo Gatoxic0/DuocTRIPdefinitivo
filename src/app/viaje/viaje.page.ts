@@ -37,13 +37,13 @@ export class ViajePage implements OnInit {
 
   ngOnInit() {
     this.obtenerUsuarioLogueado();
-
+  
     // Rellenar automáticamente los campos con los datos del conductor logueado
     if (this.tipoUsuario === 'conductor') {
       this.newTrip.driverName = this.nombreUsuario;
       this.newTrip.driverLicensePlate = this.patente;
     }
-
+  
     // Recuperar destino desde localStorage
     const storedDestination = localStorage.getItem('destination');
     if (storedDestination) {
