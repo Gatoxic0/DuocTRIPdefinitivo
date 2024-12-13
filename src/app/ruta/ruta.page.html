@@ -3,9 +3,14 @@
     <ion-header>
       <ion-toolbar>
         <ion-title>Ruta</ion-title>
+        <div class="retroceder">
+          <ion-buttons slot="start">
+            <ion-back-button default-href="#"></ion-back-button>
+          </ion-buttons>
+      </div>
         <ion-buttons slot="end">
           <ion-button (click)="cambiarTema()">
-            <ion-icon [name]="icono === 'oscuro' ? 'sunny' : 'moon'"></ion-icon>
+            <ion-icon src="/assets/{{icono}}.svg" id="tema" (click)="cambiarTema()"></ion-icon>
           </ion-button>
         </ion-buttons>
       </ion-toolbar>
