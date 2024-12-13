@@ -135,28 +135,40 @@ export class RutaPage {
     });
   }
 
-  updateSearchResults() {
-    let GoogleAutocomplete = new google.maps.places.AutocompleteService();
-    if (this.end == '') {
+  autocompleteItem: any[] = [];
+  currentSearchField: 'start' | 'end' = 'start'; // Para identificar el campo activo
+  
+  updateSearchResults(field: 'start' | 'end') {
+    this.currentSearchField = field;
+    const GoogleAutocomplete = new google.maps.places.AutocompleteService();
+  
+    const input = field === 'start' ? this.start : this.end;
+    if (!input) {
       this.autocompleteItems = [];
       return;
     }
-    GoogleAutocomplete!.getPlacePredictions({ input: this.end },
+  
+    GoogleAutocomplete.getPlacePredictions({ input },
       (predictions: any, status: any) => {
         this.autocompleteItems = [];
         this.zone.run(() => {
-          predictions.forEach((prediction: any) => {
-            this.autocompleteItems!.push(prediction);
-          });
+          if (status === 'OK' && predictions) {
+            predictions.forEach((prediction: any) => {
+              this.autocompleteItems.push(prediction);
+            });
+          }
         });
       });
   }
+  
   selectSearchResult(item: any) {
-    this.end = item.description
-    this.autocompleteItems = []
-    this.initMap()
+    if (this.currentSearchField === 'start') {
+      this.start = item.description;
+    } else if (this.currentSearchField === 'end') {
+      this.end = item.description;
+    }
+    this.autocompleteItems = [];
   }
-
 
   ngOnInit() {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
