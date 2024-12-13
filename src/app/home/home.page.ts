@@ -31,20 +31,28 @@ export class HomePage implements OnInit {
   }
 
   iniciarSesion() {
+    // Validar que los campos no estén vacíos
+    if (!this.datosUsuario.nombre.trim() || !this.datosUsuario.contrasena.trim()) {
+      console.error('Los campos de nombre de usuario y contraseña son obligatorios.');
+      this.animarError(0); // Animar el campo de nombre
+      this.animarError(1); // Animar el campo de contraseña
+      return; // Salir del método si los campos están vacíos
+    }
+  
     const usuarios = JSON.parse(localStorage.getItem('usuarios')!) || [];
-
+  
     const usuarioEncontrado = usuarios.find(
       (usuario: any) =>
         usuario.nombre === this.datosUsuario.nombre &&
         usuario.contrasena === this.datosUsuario.contrasena
     );
-
+  
     if (usuarioEncontrado) {
       // Guardar los datos del usuario logueado en localStorage
       localStorage.setItem('usuarioLogueado', JSON.stringify(usuarioEncontrado));
-
+  
       console.log('Inicio de sesión exitoso como:', usuarioEncontrado.tipo);
-
+  
       // Redirigir según el tipo de usuario
       if (usuarioEncontrado.tipo === 'conductor') {
         this.router.navigate(['/viaje']); // Página del conductor
@@ -59,6 +67,7 @@ export class HomePage implements OnInit {
       this.animarError(1); // Animar el campo de contraseña
     }
   }
+  
 
   animarLogo() {
     this.anim
