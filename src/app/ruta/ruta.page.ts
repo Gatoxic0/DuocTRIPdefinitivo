@@ -3,50 +3,48 @@ import { Router } from '@angular/router';
 import { AnimationController, Platform } from '@ionic/angular';
 
 declare var google: any;
+
 @Component({
   selector: 'app-ruta',
   templateUrl: './ruta.page.html',
   styleUrls: ['./ruta.page.scss'],
 })
 export class RutaPage {
-
-
-
-  icono ="oscuro"
-    
-
-
-  constructor(private platform: Platform, private zone: NgZone, private anim: AnimationController, private router: Router) { }
-  carrito: any[] = []
-  input = ""
+  icono = 'oscuro';
+  carrito: any[] = [];
+  input = '';
   autocompleteItems!: any[];
-  distancia = ""
-  duracion = ""
+  distancia = '';
+  duracion = '';
 
   @ViewChild('map') mapElement: ElementRef | undefined;
   public map: any;
-  public start: any = "Duoc UC: Sede Melipilla - Serrano, Melipilla, Chile";
+  public start: any = 'Duoc UC: Sede Melipilla - Serrano, Melipilla, Chile';
   public end: any;
-  // public latitude: any;
-  // public longitude: any;
   public directionsService: any;
   public directionsDisplay: any;
 
+  constructor(
+    private platform: Platform,
+    private zone: NgZone,
+    private anim: AnimationController,
+    private router: Router
+  ) {}
+
   ionViewDidEnter() {
-    if (localStorage.getItem("carrito")) {
-      this.carrito = JSON.parse(localStorage.getItem("carrito")!)
+    if (localStorage.getItem('carrito')) {
+      this.carrito = JSON.parse(localStorage.getItem('carrito')!);
     }
     this.platform.ready().then(() => {
-      this.initMap()
-    })
+      this.initMap();
+    });
   }
 
   initMap() {
-    this.directionsService = new google.maps.DirectionsService;
-    this.directionsDisplay = new google.maps.DirectionsRenderer;
-    // let latLng = new google.maps.LatLng(this.latitude, this.longitude);
-    let mapOptions = {
-      // center: latLng,
+    this.directionsService = new google.maps.DirectionsService();
+    this.directionsDisplay = new google.maps.DirectionsRenderer();
+
+    const mapOptions = {
       zoom: 5,
       zoomControl: false,
       scaleControl: false,
@@ -56,116 +54,96 @@ export class RutaPage {
       mapTypeId: google.maps.MapTypeId.ROADMAP,
     };
     this.map = new google.maps.Map(this.mapElement!.nativeElement, mapOptions);
-    let infoWindow = new google.maps.InfoWindow();
+    const infoWindow = new google.maps.InfoWindow();
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position: GeolocationPosition) => {
-          const pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude,
-          };
-          // new google.maps.Marker({
-          //   position: pos,
-          //   map: this.map,
-
-          // });
-          infoWindow.setPosition(pos);
-          infoWindow.setContent("Estas aquí.");
-          infoWindow.open(this.map);
-          this.map.setCenter(pos);
-        }
-      );
+      navigator.geolocation.getCurrentPosition((position: GeolocationPosition) => {
+        const pos = {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude,
+        };
+        infoWindow.setPosition(pos);
+        infoWindow.setContent('Estas aquí.');
+        infoWindow.open(this.map);
+        this.map.setCenter(pos);
+      });
     }
-
 
     this.directionsDisplay.setMap(this.map);
     this.calculateAndDisplayRoute();
   }
 
-
-
   calculateAndDisplayRoute() {
-    this.directionsService.route({
-      origin: this.start,
-      destination: this.end,
-      travelMode: 'DRIVING'
-    }, (response: any, status: string) => {
-      if (status === 'OK') {
-        this.directionsDisplay.setDirections(response);
+    if (!this.start || !this.end) {
+      return;
+    }
 
-        const route = response.routes[0];
-        const leg = route.legs[0];
+    this.directionsService.route(
+      {
+        origin: this.start,
+        destination: this.end,
+        travelMode: 'DRIVING',
+      },
+      (response: any, status: string) => {
+        if (status === 'OK') {
+          this.directionsDisplay.setDirections(response);
 
-        // Distancia total
-        const distanceInKilometers = (leg.distance.value / 1000).toFixed(2);
-        console.log(`Distancia: ${distanceInKilometers} km`);
-        this.distancia = `${distanceInKilometers} km`;
-        // Tiempo de viaje
-        const durationInSeconds = leg.duration.value;
-        const minutes = Math.floor(durationInSeconds / 60); // minutos
-        const seconds = durationInSeconds % 60; // segundos
-        const formattedDuration = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        console.log(`Duración: ${formattedDuration} (mm:ss)`);
-        this.duracion = `${formattedDuration}`;
+          const route = response.routes[0];
+          const leg = route.legs[0];
 
-        // Información sobre origen y destino
-        console.log(`Inicio: ${leg.start_address}`);
-        console.log(`Destino: ${leg.end_address}`);
+          // Guardar destino en localStorage
+          localStorage.setItem('destination', this.end);
 
-        // Tiempo de viaje en tráfico
-        if (leg.duration_in_traffic) {
-          const durationInTraffic = leg.duration_in_traffic.value / 60;
-
-          console.log(`Tiempo de viaje en tráfico: ${durationInTraffic} minutos`);
+          // Actualizar distancia y duración
+          const distanceInKilometers = (leg.distance.value / 1000).toFixed(2);
+          this.distancia = `${distanceInKilometers} km`;
+          const durationInSeconds = leg.duration.value;
+          const minutes = Math.floor(durationInSeconds / 60);
+          const seconds = durationInSeconds % 60;
+          this.duracion = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        } else {
+          window.alert('Directions request failed due to ' + status);
         }
-
-        // Detalles de los pasos
-        leg.steps.forEach((step: any, index: number) => {
-          const stepDistance = step.distance.value / 1000; // en km
-          const stepDuration = step.duration.value / 60; // en minutos
-
-          console.log(`Paso ${index + 1}: ${step.instructions}, Distancia: ${stepDistance} km, Tiempo: ${stepDuration} minutos`);
-        });
-
-      } else {
-        window.alert('Directions request failed due to ' + status);
       }
-    });
+    );
   }
 
   autocompleteItem: any[] = [];
   currentSearchField: 'start' | 'end' = 'start'; // Para identificar el campo activo
-  
+
   updateSearchResults(field: 'start' | 'end') {
     this.currentSearchField = field;
     const GoogleAutocomplete = new google.maps.places.AutocompleteService();
-  
+
     const input = field === 'start' ? this.start : this.end;
     if (!input) {
       this.autocompleteItems = [];
       return;
     }
-  
-    GoogleAutocomplete.getPlacePredictions({ input },
-      (predictions: any, status: any) => {
-        this.autocompleteItems = [];
-        this.zone.run(() => {
-          if (status === 'OK' && predictions) {
-            predictions.forEach((prediction: any) => {
-              this.autocompleteItems.push(prediction);
-            });
-          }
-        });
+
+    GoogleAutocomplete.getPlacePredictions({ input }, (predictions: any, status: any) => {
+      this.autocompleteItems = [];
+      this.zone.run(() => {
+        if (status === 'OK' && predictions) {
+          predictions.forEach((prediction: any) => {
+            this.autocompleteItems.push(prediction);
+          });
+        }
       });
+    });
   }
-  
+
   selectSearchResult(item: any) {
     if (this.currentSearchField === 'start') {
       this.start = item.description;
     } else if (this.currentSearchField === 'end') {
       this.end = item.description;
+
+      // Llamar a la función de cálculo de ruta automáticamente
+      if (this.start && this.end) {
+        this.calculateAndDisplayRoute();
+      }
     }
     this.autocompleteItems = [];
   }
@@ -174,7 +152,6 @@ export class RutaPage {
     this.icono = localStorage.getItem('icono') || 'oscuro'; // Recupera el tema o usa 'oscuro' por defecto
     this.setTema();
     this.animarLogo();
-
   }
   redirigir() {
     const usuarioLogueado = JSON.parse(localStorage.getItem('usuarioLogueado')!);

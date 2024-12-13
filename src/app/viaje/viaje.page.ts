@@ -43,6 +43,13 @@ export class ViajePage implements OnInit {
       this.newTrip.driverName = this.nombreUsuario;
       this.newTrip.driverLicensePlate = this.patente;
     }
+
+    // Recuperar destino desde localStorage
+    const storedDestination = localStorage.getItem('destination');
+    if (storedDestination) {
+      this.newTrip.destination = storedDestination;
+      localStorage.removeItem('destination'); // Limpiar después de usar
+    }
   }
 
   // Obtener datos del usuario logueado desde localStorage
