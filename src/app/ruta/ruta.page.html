@@ -1,28 +1,34 @@
 <ion-content [fullscreen]="true">
   <div class="contenedor">
-    <div id="info-viaje">
-      <div class="distancia">
-        <ion-icon name="analytics"></ion-icon>
-        {{distancia}}
-      </div>
-      <div class="tiempo">
-        <ion-icon name="time"></ion-icon>
-        {{duracion}}
-      </div>
-    </div>
-    <div #map id="map"></div>
-    <input 
-      type="text" 
-      [(ngModel)]="end" 
-      (input)="updateSearchResults()" 
-      placeholder="Destino" 
-      id="input">
-    <div id="rutas" *ngIf="autocompleteItems.length > 0">
-      <div class="ruta" *ngFor="let item of autocompleteItems" tappable (click)="selectSearchResult(item)">
-        {{ item.description }}
-      </div>
-    </div>
-  </div>
+ 
+
+
+    <ion-content>
+      <ion-item>
+        <ion-label>Origen</ion-label>
+        <ion-input [(ngModel)]="start" (ionInput)="updateSearchResults('start')"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Destino</ion-label>
+        <ion-input [(ngModel)]="end" (ionInput)="updateSearchResults('end')"></ion-input>
+      </ion-item>
+    
+      <ion-list>
+        <ion-item *ngFor="let item of autocompleteItems" (click)="selectSearchResult(item)">
+          {{ item.description }}
+        </ion-item>
+      </ion-list>
+    
+      <ion-button expand="full" (click)="calculateAndDisplayRoute()">Calcular Ruta</ion-button>
+    
+      <div #map style="height: 100%;"></div>
+    
+      <p>Distancia: {{ distancia }}</p>
+      <p>Duración: {{ duracion }}</p>
+    </ion-content>
+
+    
+
   <footer id="footerRuta">
     <div class="boton">
       <ion-icon name="home" [routerLink]="['/inicio']"></ion-icon>
@@ -41,4 +47,4 @@
       <p>Viajes</p>
     </div>
   </footer>
-</ion-content>
+
